@@ -1,4 +1,6 @@
 require('./config/config');
+
+const mongo = require('mongoose');
 const express = require('express');
 const bodyp = require('body-parser');
 const app = express();
@@ -6,36 +8,13 @@ const app = express();
 //form-enconde
 app.use(bodyp.urlencoded({ extended: false}));
 app.use(bodyp.json()); //encode JSON
+app.use(require('./routes/Usuario'));
 
-app.get('/user', (req, res) => {
-    res.json('It works GET');
-});
-
-app.post('/user', (req, res) => {
-
-    let body = req.body;
-    if(body.nombre === undefined){
-        res.status(400).json({
-            ok: false,
-            message: 'Ausencia de nombre de Usuario'
-        });
-    }
-    else{
-        res.json({
-            user: body
-        });
-    }
-});
-
-app.put('/user/:id', (req, res) => {
-    let id = req.params.id;
-    res.json({
-        id
-    });
-});
-
-app.delete('/user', (req, res) => {
-    res.json('It works DELETE');
+mongo.connect(process.env.DB_URI,
+    { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true}
+    ,(err, res) => {
+    if(err) throw err;
+    console.log('Conectado a la DB');
 });
 
 app.listen(process.env.PORT, () => {
