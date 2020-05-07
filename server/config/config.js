@@ -14,7 +14,7 @@ if(process.env.NODE_ENV === 'dev'){
     dbc = 'mongodb://localhost:27017/cafecel';
 }
 else{
-    dbc = 'mongodb+srv://SrDLunny:MIMaduVVUXuJegB1@cluster0-uvjw4.mongodb.net/cafesel';
+    dbc = process.env.ATLAS_URI;
 }
 
 process.env.DB_URI = dbc;
