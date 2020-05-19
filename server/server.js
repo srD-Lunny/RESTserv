@@ -8,7 +8,7 @@ const app = express();
 //form-enconde
 app.use(bodyp.urlencoded({ extended: false}));
 app.use(bodyp.json()); //encode JSON
-app.use(require('./routes/Usuario'));
+app.use(require('./routes/index'));
 
 mongo.connect(process.env.DB_URI,
     { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true}

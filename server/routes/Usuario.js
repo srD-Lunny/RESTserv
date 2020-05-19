@@ -2,10 +2,10 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
 const app = express();
-
+const {verifyToken, verifyRole} = require('../middleware/auth');
 let User = require('../models/Usuarios');
 
-app.get('/user', (req, res) => {
+app.get('/user', verifyToken, (req, res) => {
 
     let from = req.query.from || 0;
     let limit = req.query.limit || 5;
@@ -18,7 +18,7 @@ app.get('/user', (req, res) => {
         .limit(limit)
         .exec((err, usuarios) => {
             if(err){
-                res.status(400).json({
+                return res.status(400).json({
                     ok: false,
                     err
                 });
@@ -31,7 +31,7 @@ app.get('/user', (req, res) => {
         });
 });
 
-app.post('/user', (req, res) => {
+app.post('/user', [verifyToken,verifyRole], (req, res) => {
     let body = req.body;
 
     usuario = new User({
@@ -56,7 +56,7 @@ app.post('/user', (req, res) => {
     });
 });
 
-app.put('/user/:id', (req, res) => {
+app.put('/user/:id', [verifyToken, verifyRole], (req, res) => {
     let id = req.params.id;
     let body = _.pick(req.body, ['nombre', 'correo', 'img', 'role', 'estado'])
     req.body;
@@ -75,7 +75,7 @@ app.put('/user/:id', (req, res) => {
     });
 });
 
-app.delete('/user/:id', (req, res) => {
+app.delete('/user/:id', [verifyToken, verifyRole], (req, res) => {
     let id = req.params.id;
     let status = {
         estado: false
