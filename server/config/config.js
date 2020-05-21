@@ -26,3 +26,7 @@ else{
 }
 
 process.env.DB_URI = dbc;
+
+//>>>>>>>>>>>>>>>>Google ID<<<<<<<<<<<<<<<<//
+
+process.env.CLIENT_ID = process.env.CLIENT_ID || '963085719753-g592cn6ul43pakth3ffj9spsv21m9osc.apps.googleusercontent.com';
