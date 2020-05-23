@@ -20,7 +20,9 @@ app.get('/user', verifyToken, (req, res) => {
             if(err){
                 return res.status(400).json({
                     ok: false,
-                    err
+                    err: {
+                        message: err
+                    }
                 });
             }
             res.json({
@@ -45,29 +47,33 @@ app.post('/user', [verifyToken,verifyRole], (req, res) => {
         if(err){
             return res.status(400).json({
                 ok: false,
-                err
+                err: {
+                    message: err
+                }
             });
         }
 
         res.json({
             ok: true,
             user: userDB
-        })
+        });
     });
 });
 
 app.put('/user/:id', [verifyToken, verifyRole], (req, res) => {
     let id = req.params.id;
-    let body = _.pick(req.body, ['nombre', 'correo', 'img', 'role', 'estado'])
-    req.body;
+    let body = _.pick(req.body, ['nombre', 'correo', 'img', 'role', 'estado']);
+    //req.body;
     User.findByIdAndUpdate(id, body, {new: true, runValidators: true}, (err, userDB) => {
         if(err){
             return res.status(400).json({
                 of: false,
-                err
+                err: {
+                    message: err
+                }
             });
         }
-
+        
         res.json({
             ok: true,
             user: userDB
@@ -83,13 +89,15 @@ app.delete('/user/:id', [verifyToken, verifyRole], (req, res) => {
     //User.findByIdAndRemove(id, (err, userDel) => {
     User.findByIdAndUpdate(id, status, {new: true}, (err, userDel) => {
         if(err){
-            res.status(400).json({
+            return res.status(400).json({
                 ok: false,
-                err
+                err: {
+                    message: err
+                }
             });
         }
         if(!userDel){
-            res.status(400).json({
+            return res.status(400).json({
                 ok: false,
                 err: {
                     message: 'No se encontró el usuario'

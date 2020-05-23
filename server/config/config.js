@@ -12,7 +12,7 @@ process.env.TOKEN_SEED = process.env.TOKEN_SEED || 'la-Libertad-n0-es-Una-Palabr
 
 //>>>>>>>>>>>>>>>>Expires<<<<<<<<<<<<<<<<<<//
 
-process.env.TOKEN_EXP = 60 * 60 * 24 * 30;
+process.env.TOKEN_EXP = '24h';
 
 //>>>>>>>>>>>>>>>>>>>DB<<<<<<<<<<<<<<<<<<<<//
 

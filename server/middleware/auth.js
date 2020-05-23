@@ -6,7 +6,9 @@ function verifyToken (req, res, next){
         if(err){
             return res.status(401).json({
                 ok:false,
-                err
+                err: {
+                    message: err
+                }
             });
         }
         req.user = decode.user;
@@ -15,9 +17,7 @@ function verifyToken (req, res, next){
 }
 
 function verifyRole( req, res, next){
-
     let user = req.user;
-
     if(user.role === 'ADMIN_ROLE'){
         next();
     }
@@ -32,5 +32,6 @@ function verifyRole( req, res, next){
 }
 
 module.exports = {
-    verifyToken, verifyRole
+    verifyToken, 
+    verifyRole
 };
