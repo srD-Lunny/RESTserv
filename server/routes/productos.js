@@ -50,6 +50,33 @@ app.get('/producto/:id', verifyToken, (req, res) => {
     });
 });
 
+app.get('/producto/buscar/:termino', verifyToken, (req, res) => {
+    let termino = req.params.termino;
+    let regex = RegExp(termino, 'i');
+    Producto.find({nombre: regex}, (err, producto) => {
+        if(err){
+            return res.status(500).json({
+                ok: false,
+                err:{
+                    message: err
+                }
+            });
+        }
+        if(!producto){
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'No se encontró el producto en cuestión'
+                }
+            });
+        }
+        res.json({
+            ok: true,
+            producto
+        });
+    })
+})
+
 app.post('/producto', [verifyToken, verifyRole], (req, res) => {
     let body = req.body;
     let product = new Producto({

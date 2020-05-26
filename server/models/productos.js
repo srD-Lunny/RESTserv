@@ -15,6 +15,10 @@ var productoSchema = new Schema({
         type: String, 
         required: false 
     },
+    img: { 
+        type: String, 
+        required: false 
+    },
     disp: { 
         type: Boolean, 
         required: true, 
